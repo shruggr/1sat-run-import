@@ -1,5 +1,5 @@
-// import Run from 'run-sdk'
-// const fetch = require('node-fetch');
+require('dotenv').config();
+
 const { Address, Script } = require('@ts-bitcoin/core');
 require('isomorphic-fetch')
 
@@ -7,7 +7,10 @@ const Run = require('run-sdk');
 const localCache = new Run.plugins.LocalCache({ maxSizeMB: 100 });
 
 const Redis = require('ioredis');
-const redis = new Redis();
+const { REDIS_URL } = process.env;
+
+console.log("REDIS:", REDIS_URL);
+const redis = new Redis(`${REDIS_URL}`);
 
 class Blockchain {
     network = 'main';
