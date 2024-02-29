@@ -19,7 +19,12 @@ const run = new Run({
 })
 
 app.get('/address/:address', async (req, res) => {
-    const utxos = await blockchain.utxos(Address.fromString(req.params.address).toTxOutScript().toHex())
+    // const utxos = await blockchain.utxos(Address.fromString(req.params.address).toTxOutScript().toHex())
+    const resp = await fetch(`https://ordinals.gorillapool.io/api/txos/address/${address.toString()}/unspent?limit=${req.params.limit || 25}&offset=${req.params.offset || 0}`);
+    if (resp.status !== 200) {
+        throw new Error('Transaction not found');
+    }
+    const utxos = await resp.json();
 
     const jigs = [];
     for (const utxo of utxos) {
