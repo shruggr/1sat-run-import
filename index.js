@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const { PORT } = process.env;
 
 const Blockchain = require('./blockchain')
 const Cache = require('./cache')
@@ -39,6 +39,6 @@ app.get('/location/:location', async (req, res) => {
     res.json(jig);
 });
 
-app.listen(port, () => {
+app.listen(PORT || 3000, () => {
     console.log(`Server listening at http://localhost:${port}`);
 });
