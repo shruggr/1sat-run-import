@@ -19,9 +19,7 @@ const run = new Run({
 })
 
 app.get('/address/:address', async (req, res) => {
-    const address = Address.fromString(req.params.address)
-    // const utxos = await blockchain.utxos(Address.fromString(req.params.address).toTxOutScript().toHex())
-    const resp = await fetch(`https://ordinals.gorillapool.io/api/txos/address/${address.toString()}/unspent?limit=${req.params.limit || 25}&offset=${req.params.offset || 0}`);
+    const resp = await fetch(`https://ordinals.gorillapool.io/api/txos/address/${req.params.address}/unspent?limit=${req.params.limit || 25}&offset=${req.params.offset || 0}`);
     if (resp.status !== 200) {
         throw new Error('Transaction not found');
     }
