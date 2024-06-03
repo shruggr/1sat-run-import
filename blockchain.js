@@ -66,20 +66,30 @@ class Blockchain {
         throw new Error('Not Implemented');
     }
 
-    async utxos(scriptHex) {
+    async utxos(scriptHex, offset = 0, limit = 100) {
         const script = Script.fromHex(scriptHex);
         const address = Address.fromTxOutScript(script);
-        const resp = await fetch(`https://ordinals.gorillapool.io/api/txos/address/${address.toString()}/unspent`);
-        if (resp.status !== 200) {
-            throw new Error('Transaction not found');
+        let utxos = [];
+        let hasMore = true;
+    
+        while (hasMore) {
+            const resp = await fetch(`https://ordinals.gorillapool.io/api/txos/address/${address.toString()}/unspent?offset=${offset}&limit=${limit}`);
+            if (resp.status !== 200) {
+                throw new Error('Transaction not found');
+            }
+            const fetchedUtxos = await resp.json();
+            utxos = [...utxos, ...fetchedUtxos.map(u => ({
+                txid: u.txid,
+                vout: u.vout,
+                value: u.satoshis,
+                script: scriptHex,
+            }))];
+    
+            hasMore = fetchedUtxos.length === limit;
+            offset += limit;
         }
-        const utxos = await resp.json();
-        return utxos.map(u => ({
-            txid: u.txid,
-            vout: u.vout,
-            value: u.satoshis,
-            script: scriptHex,
-        }));
+    
+        return utxos;
     }
 }
 

@@ -1,5 +1,5 @@
-const Blockchain = require('./blockchain')
-const Cache = require('./cache')
+const Blockchain = require('../blockchain')
+const Cache = require('../cache')
 const Run = require('run-sdk')
 
 async function main() {
