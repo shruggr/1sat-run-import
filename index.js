@@ -1,48 +1,36 @@
-const express = require('express');
-const app = express();
-const { PORT } = process.env;
+const { importAddress } = require('./cmd/importAddress')
+const { viewJigs } = require('./cmd/view')
+const { convertItem } = require('./cmd/convert')
 
-const Blockchain = require('./blockchain')
-const Cache = require('./cache')
-const Run = require('run-sdk')
-const { Address } = require('@ts-bitcoin/core')
+const { program } = require('commander');
 
-const blockchain = new Blockchain()
-const cache = new Cache()
-const run = new Run({
-    network: 'main',
-    blockchain,
-    timeout: 600000,
-    cache,
-    trust: '*',
-    state: new Run.plugins.LocalState(),
-})
+program
+  .option('-a, --address <address>', 'Specify the address')
+  .option('-v, --view [page]', 'View the imported jigs. Optional page number will use 25 jigs per page.')
+  .option('-c, --convert <id>', 'Convert the jig by its ID number (visible with -v)')
+  .parse(process.argv);
 
-app.get('/address/:address', async (req, res) => {
-    const resp = await fetch(`https://ordinals.gorillapool.io/api/txos/address/${req.params.address}/unspent?limit=${req.params.limit || 25}&offset=${req.params.offset || 0}`);
-    if (resp.status !== 200) {
-        throw new Error('Transaction not found');
-    }
-    const utxos = await resp.json();
+const options = program.opts();
 
-    const jigs = [];
-    for (const utxo of utxos) {
-        // if(utxo.value != 273) continue
-        try {
-            const jig = await run.load(`${utxo.txid}_o${utxo.vout}`)
-            jigs.push(jig)
-        } catch (e) {
-            console.error(e)
-        }
-    }
-    res.json(jigs);
-});
+if (!options.address && !options.view && !options.convert) {
+  console.error('Error: Address is required.');
+  program.help();
+}
 
-app.get('/location/:location', async (req, res) => {
-    const jig = await run.load(req.params.location)
-    res.json(jig);
-});
+if (options.address) {
+  importAddress(options.address)
+    .catch(console.error)
+  .then(() => process.exit(0));
+}
 
-app.listen(PORT || 3000, () => {
-    console.log(`Server listening at http://localhost:${PORT}`);
-});
+if (options.view) {
+  viewJigs(options.view)
+    .catch(console.error)
+    .then(() => process.exit(0))
+}
+
+if (options.convert) {
+  convertItem(options.convert)
+    .catch(console.error)
+    .then(() => process.exit(0))
+}
