@@ -13,7 +13,7 @@ const userHome = require('os').homedir();
 const defaultAddress = process.env.MNEMONIC ? getIdentityAddress(process.env.MNEMONIC).to_string() : undefined;
 const defaultDestinationAddress = process.env.DESTINATION_ORD_ADDRESS ? process.env.DESTINATION_ORD_ADDRESS : undefined;
 
-program.name("run-to-1sat")
+program.name("runto1sat")
 
 program
   .command('import')

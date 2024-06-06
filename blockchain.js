@@ -9,7 +9,6 @@ const localCache = new Run.plugins.LocalCache({ maxSizeMB: 100 });
 const Redis = require('ioredis');
 const { REDIS_URL } = process.env;
 
-console.log("REDIS:", REDIS_URL);
 const redis = new Redis(`${REDIS_URL}`);
 
 class Blockchain {

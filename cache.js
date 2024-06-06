@@ -1,7 +1,6 @@
 require('dotenv').config();
 const Redis = require('ioredis');
 const { REDIS_URL } = process.env;
-console.log("REDIS:", REDIS_URL);
 const redis = new Redis(`${REDIS_URL}`);
 
 class Cache {
