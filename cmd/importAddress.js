@@ -4,6 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const Run = require('run-sdk')
 const { Address } = require('@ts-bitcoin/core')
+const userHome = require('os').homedir()
 
 async function importAddress(address) {
     console.log("importAddress", address)
@@ -39,11 +40,11 @@ async function importAddress(address) {
       const jigLocation = `${utxo.txid}_o${utxo.vout}`;
 
       // make directory if it doesn't exist already
-      if (!fs.existsSync(path.join('jigs', address))) {
-          fs.mkdirSync(path.join('jigs', address), { recursive: true });
+      if (!fs.existsSync(path.join(userHome, 'runto1sat', 'jigs', address))) {
+          fs.mkdirSync(path.join(userHome, 'runto1sat', 'jigs', address), { recursive: true });
       }
       
-      const jigFilePath = path.join('jigs', address, `${jigLocation}.json`);
+      const jigFilePath = path.join(userHome, 'runto1sat', 'jigs', address, `${jigLocation}.json`);
   
       // Skip if the jig file already exists
       if (fs.existsSync(jigFilePath)) {

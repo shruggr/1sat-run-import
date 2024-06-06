@@ -2,6 +2,7 @@ const fs = require('fs')
 const { buildInscription } = require('js-1sat-ord')
 const { P2PKHAddress, Transaction, TxIn, TxOut, Script } = require ('bsv-wasm')
 const { toSatoshi } = require('satoshi-bitcoin')
+const userHome = require('os').homedir()
 
 async function migrateItem(itemNum, address, destination) {
 
@@ -93,9 +94,9 @@ b://${originTxid}${audioSuffix}`
 }
 
 const getJigDetails = async (itemNum, address) => {
-  const jigs = fs.readdirSync(`./jigs/${address}`)
+  const jigs = fs.readdirSync(`${userHome}/runto1sat/jigs/${address}`)
   console.log(jigs[itemNum])
-  const data = fs.readFileSync(`./jigs/${address}/${jigs[itemNum]}`)
+  const data = fs.readFileSync(`${userHome}/runto1sat/jigs/${address}/${jigs[itemNum]}`)
   return JSON.parse(data)
 }
 

@@ -25,10 +25,12 @@
     "bsv-wasm": "^2.1.1",
     "commander": "^11.1.0",
     "dotenv": "^16.4.5",
+    "explorer-opener": "^1.0.1",
     "express": "^4.18.2",
     "ioredis": "^5.2.3",
     "isomorphic-fetch": "^3.0.0",
     "js-1sat-ord": "^0.0.37",
+    "open": "^10.1.0",
     "picocolors": "^1.0.1",
     "run-sdk": "^0.6.41",
     "satoshi-bitcoin": "^1.0.5"
