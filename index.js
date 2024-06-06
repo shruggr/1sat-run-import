@@ -5,7 +5,7 @@ const { migrateItem } = require('./cmd/migrate');
 const { importFromSeed, getIdentityAddress } = require('./cmd/import');
 const { program } = require('commander');
 const { openExplorer } = require('explorer-opener');
-
+const fs = require('fs');
 const path = require('path');
 const userHome = require('os').homedir();
 
@@ -55,8 +55,32 @@ program
     .alias('o')
     .description('Opens the jigs folder')
     .action(() => {
+            // check if it exists
+            if (!fs.existsSync(path.join(userHome, 'runto1sat', 'jigs'))) {
+              console.log('Nothing to open. Use the import command to populate files.')
+              process.exit(0)
+            }
       openExplorer(path.join(userHome, 'runto1sat', 'jigs'))
     })
+
+    // command to clear the cache
+    program.command('clear')
+    .alias('c')
+    .description('Clears the jig cache')
+    .action(() => {
+      if (!fs.existsSync(path.join(userHome, 'runto1sat', 'jigs'))) {
+        console.log('Nothing to clear')
+        process.exit(0)
+      }
+      fs.rmSync(path.join(userHome, 'runto1sat', 'jigs'), { recursive: true }).then(() => {
+        console.log('Jig cache cleared')
+        process.exit(0)
+      }).catch((e) => {
+        console.error(e.message)
+        process.exit(1)
+      })
+    })
+
 program.parse(process.argv);
 
 if (!process.argv.slice(2).length) {
