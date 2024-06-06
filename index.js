@@ -21,8 +21,9 @@ program
   .description('View the imported jigs. Optional page number will use 25 jigs per page.')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
   .option('-p, --page <page>', 'Specify the page', undefined)
-  .action((page, options) => {
-    viewJigs(options.address, options.page)
+  .option('-s, --search <term>', 'Search jigs by name')
+  .action((options) => {
+    viewJigs(options.address, options.page, options.search)
       .catch(console.error)
       .then(() => process.exit(0));
   });

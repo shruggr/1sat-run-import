@@ -2,8 +2,8 @@ const fs = require('fs')
 const pc = require("picocolors")
 const { getIdentityAddress } = require("./import")
 
-async function viewJigs(address, page) {
-  console.log("Viewing jigs for", address)
+async function viewJigs(address, page, searchTerm) {
+  console.log("Viewing jigs for", address, "searching for", searchTerm)
 
   if (!address || address === "") {
     const mnemonic = process.env.MNEMONIC
@@ -11,6 +11,15 @@ async function viewJigs(address, page) {
   }
   // first read the folder
   let jigs = fs.readdirSync(`jigs/${address}`)
+
+  if (searchTerm) {
+    jigs = jigs.filter((jig) => {
+      const jigDetails = JSON.parse(fs.readFileSync(`jigs/${address}/${jig}`, 'utf8'));
+      const name = jigDetails.constructor.metadata?.name || "";
+      return name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  }
+
 
   // iterate over the jigs and print the details
   let i = 0;
