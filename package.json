@@ -7,20 +7,23 @@
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "runto1sat": "node ./index.js"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fyxgaming/run-indexer.git"
+    "url": "git+https://github.com/shruggr/1sat-run-import.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fyxgaming/run-indexer/issues"
+    "url": "https://github.com/shruggr/1sat-run-import/issues"
   },
-  "homepage": "https://github.com/fyxgaming/run-indexer#readme",
+  "homepage": "https://github.com/shruggr/1sat-run-import#readme",
   "dependencies": {
     "@ts-bitcoin/core": "^2.2.0",
     "bsv-wasm": "^2.1.1",
-    "commander": "^12.1.0",
+    "commander": "^11.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "ioredis": "^5.2.3",
@@ -34,6 +37,7 @@
     "@types/node": "^18.11.0"
   },
   "engines": {
+    "bun": ">=1.0.0",
     "npm": ">=8.0.0 <9.0.0",
     "node": ">=16.0.0 <17.0.0"
   }

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { importAddress } = require('./cmd/importAddress');
 const { viewJigs } = require('./cmd/view');
 const { convertItem } = require('./cmd/convert');
@@ -6,6 +7,9 @@ const { program } = require('commander');
 
 // Get the default identity address from the mnemonic
 const defaultAddress = process.env.MNEMONIC ? getIdentityAddress(process.env.MNEMONIC).to_string() : undefined;
+const defaultDestinationAddress = process.env.DESTINATION_ORD_ADDRESS ? process.env.DESTINATION_ORD_ADDRESS : undefined;
+
+program.name("run-to-1sat")
 
 program
   .command('import')
@@ -32,7 +36,7 @@ program
   .command('convert <id>')
   .description('Convert the jig by its ID number (visible with view command)')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
-  .option('-d, --destination <destination>', 'Specify the destination', defaultAddress)
+  .option('-d, --destination <destination>', 'Specify the destination', defaultDestinationAddress || defaultAddress)
   .action((id, options) => {
     convertItem(id, options.address, options.destination)
       .catch(console.error)
@@ -44,46 +48,3 @@ program.parse(process.argv);
 if (!process.argv.slice(2).length) {
   program.help();
 }
-
-// const { importAddress } = require('./cmd/importAddress')
-// const { viewJigs } = require('./cmd/view')
-// const { convertItem } = require('./cmd/convert')
-// const { importFromSeed } = require('./cmd/import')
-// const { program } = require('commander');
-
-// program.option('-i, --import', 'Import from mnemonic in .env')
-//   .option('-a, --address <address>', 'Specify the address')
-//   .option('-v, --view [page]', 'View the imported jigs. Optional page number will use 25 jigs per page.')
-//   .option('-c, --convert <id>', 'Convert the jig by its ID number (visible with -v)')
-//   .parse(process.argv);
-
-// const options = program.opts();
-
-// if (options.import) {
-//   importFromSeed().catch(console.error)
-//   .then(() => process.exit(0))
-//   return
-// }
-
-// if (!options.address && !options.view && !options.convert) {
-//   console.error('Error: Address is required.');
-//   program.help();
-// }
-
-// if (options.address && !options.convert && !options.view) {
-//   importAddress(options.address)
-//     .catch(console.error)
-//   .then(() => process.exit(0));
-// }
-
-// if (options.view) {
-//   viewJigs(options.address, options.view)
-//     .catch(console.error)
-//     .then(() => process.exit(0))
-// }
-
-// if (options.convert) {
-//   convertItem(options.convert, options.address)
-//     .catch(console.error)
-//     .then(() => process.exit(0))
-// }

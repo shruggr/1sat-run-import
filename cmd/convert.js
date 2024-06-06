@@ -12,15 +12,6 @@ const { toSatoshi } = require('satoshi-bitcoin')
 
 async function convertItem(itemNum, address, destination) {
 
-  if (!address) {
-    const mnemonic = process.env.MNEMONIC 
-    address = getIdentityAddress(mnemonic).to_string()
-  }
-
-  if (!destination) {
-    destination = address
-  }
-
   const jigDetails = await getJigDetails(itemNum, address)
   
   // build a transaction
