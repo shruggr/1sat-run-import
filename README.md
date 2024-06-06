@@ -1,29 +1,37 @@
-## Run to 1Sat Token Importer
+## runto1sat
 
-Import Run token data from your RelayX seed phrase and mint new 1Sat Ordinals (spends Run tokens).
+CLI tool for migrating Run tokens to 1Sat Ordinals.
 
-# Prerequisites
+# Features
+
+- Download Run token data for your RelayX seed phrase
+- View / search your tokens
+- Mint new 1Sat Ordinals (spends Run tokens)
+
+# Requirements
 
 This tool requires [redis is installed](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/) and available on port 6379 (default redis port). Redis is used to cache token data.
 
 NOTE: The `run-sdk` is deprecated and requires node v16 or lower.
 
-If you don't have nvm already, (install it)[https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script]. Install v16, hen run `nvm use` in the project folder to use the version specified by .nvmrc.
+If you don't have nvm already, [install it](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script). Install v16, hen run `nvm use` in the project folder to use the version specified by .nvmrc.
 
 # Environment Variables
 
-Edit the .env file with your RelayX mnemonic and 1Sat Ordinals address.
+Rename the `.env.example` to `.env` and fill in your RelayX mnemonic and 1Sat Ordinals destination address where you would like to send tokens after migrating.
 
 - `MNEMONIC` - Your RelayX mnemonic
 - `DESTINATION_ORD_ADDRESS` - Your 1Sat Ordinals address
 
 # Install
 
+Clone this repo into a folder of your choice, and follow the steps below from a terminal in that directory.
+
 1. Install dependencies
 `npm i`
 
 2. Install the "runto1sat" command globally
-`npm -g i .`
+`npm i -g .`
 
 3. import your run token data
 `runto1sat import`

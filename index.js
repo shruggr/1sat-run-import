@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const { importAddress } = require('./cmd/importAddress');
 const { viewJigs } = require('./cmd/view');
-const { convertItem } = require('./cmd/convert');
+const { migrateItem } = require('./cmd/migrate');
 const { importFromSeed, getIdentityAddress } = require('./cmd/import');
 const { program } = require('commander');
 
@@ -33,12 +33,12 @@ program
   });
 
 program
-  .command('convert <id>')
-  .description('Convert the jig by its ID number (visible with view command)')
+  .command('migrate <id>')
+  .description('Migrate the Run jig to 1Sat by its ID number (visible with view command)')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
   .option('-d, --destination <destination>', 'Specify the destination', defaultDestinationAddress || defaultAddress)
   .action((id, options) => {
-    convertItem(id, options.address, options.destination)
+    migrateItem(id, options.address, options.destination)
       .catch(console.error)
       .then(() => process.exit(0));
   });

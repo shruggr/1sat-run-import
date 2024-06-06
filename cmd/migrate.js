@@ -1,16 +1,9 @@
 const fs = require('fs')
-// const { Tx, TxIn, TxOut, Script } = require('@ts-bitcoin/core')
-const { getIdentityAddress } = require('./import')
 const { buildInscription } = require('js-1sat-ord')
 const { P2PKHAddress, Transaction, TxIn, TxOut, Script } = require ('bsv-wasm')
 const { toSatoshi } = require('satoshi-bitcoin')
-// export type MAP = {
-//   app: string;
-//   type: string;
-//   [prop: string]: string | string[];
-// };
 
-async function convertItem(itemNum, address, destination) {
+async function migrateItem(itemNum, address, destination) {
 
   const jigDetails = await getJigDetails(itemNum, address)
   
@@ -106,5 +99,5 @@ const getJigDetails = async (itemNum, address) => {
   return JSON.parse(data)
 }
 
-module.exports = { convertItem, getJigDetails }
+module.exports = { migrateItem, getJigDetails }
 
