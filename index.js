@@ -31,8 +31,9 @@ program
   .command('convert <id>')
   .description('Convert the jig by its ID number (visible with view command)')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
+  .option('-d, --destination <destination>', 'Specify the destination', defaultAddress)
   .action((id, options) => {
-    convertItem(id, options.address)
+    convertItem(id, options.address, options.destination)
       .catch(console.error)
       .then(() => process.exit(0));
   });
