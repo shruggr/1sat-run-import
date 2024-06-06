@@ -18,7 +18,7 @@ program.name("run-to-1sat")
 program
   .command('import')
   .alias('i')
-  .description('Import from mnemonic in .env')
+  .description('Import Run jigs from RelayX mnemonic (uses .env MNEMONIC)')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
   .action((options) => {
     importFromSeed(options.address).catch(console.error)
@@ -28,12 +28,12 @@ program
 program
   .command('view')
   .alias('v')
-  .description('View the imported jigs. Optional page number will use 25 jigs per page.')
+  .description('View imported Run jigs.')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
-  .option('-p, --page <page>', 'Specify the page', undefined)
-  .option('-s, --search <term>', 'Search jigs by name')
+  .option('-p, --page <page>', 'Specify the page, omit for all. 25 jigs per page.', undefined)
+  .option('-f, --find <term>', 'Find jigs by name')
   .action((options) => {
-    viewJigs(options.address, options.page, options.search)
+    viewJigs(options.address, options.page, options.find)
       .catch(console.error)
       .then(() => process.exit(0));
   });
