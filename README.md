@@ -25,23 +25,46 @@ Rename the `.env.example` to `.env` and fill in your RelayX mnemonic and 1Sat Or
 
 # Install
 
-Clone this repo into a folder of your choice, and follow the steps below from a terminal in that directory.
+1. Clone this repo:
 
-1. Install dependencies
-`npm i`
+```bash
+git clone https://github.com/shruggr/1sat-run-import.git
+```
 
-2. Install the "runto1sat" command globally
-`npm i -g .`
+2. Install dependencies:
 
-3. import your run token data
-`runto1sat import`
+```bash
+npm i
+```
 
-4. View imported token details
-`runto1sat view`
+3. Install the `runto1sat` command globally
+
+```bash
+npm i -g .
+```
+
+# Usage
+
+1. Import your run token data
+```bash
+runto1sat import
+```
+
+2. View imported token details
+```bash
+runto1sat view
+```
+
+3. Migrate a token
+```bash
+runto1sat migrate <id>
+```
 
 # Run the help menu for a list of commands:
 
-`runto1sat start -h`
+```bash
+runto1sat start -h
+```
 
 # Roadmap
 
