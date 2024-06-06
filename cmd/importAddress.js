@@ -6,6 +6,7 @@ const Run = require('run-sdk')
 const { Address } = require('@ts-bitcoin/core')
 
 async function importAddress(address) {
+    console.log("importAddress", address)
   // address needs to come from cli arg
 
   const blockchain = new Blockchain()
@@ -36,7 +37,13 @@ async function importAddress(address) {
   const jigs = [];
   for await (const utxo of utxos) {
       const jigLocation = `${utxo.txid}_o${utxo.vout}`;
-      const jigFilePath = path.join('jigs', `${jigLocation}.json`);
+
+      // make directory if it doesn't exist already
+      if (!fs.existsSync(path.join('jigs', address))) {
+          fs.mkdirSync(path.join('jigs', address), { recursive: true });
+      }
+      
+      const jigFilePath = path.join('jigs', address, `${jigLocation}.json`);
   
       // Skip if the jig file already exists
       if (fs.existsSync(jigFilePath)) {

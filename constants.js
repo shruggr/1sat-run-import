@@ -1,0 +1,13 @@
+
+const DEFAULT_WALLET_PATH = "m/44'/236'/0'/1/0";
+const DEFAULT_ORD_PATH = "m/44'/236'/1'/0/0";
+const DEFAULT_RELAYX_ORD_PATH = "m/44'/236'/0'/2/0";
+const SWEEP_PATH = "m/44'/236'/0'/0/0";
+
+module.exports = {
+  DEFAULT_WALLET_PATH,
+  DEFAULT_ORD_PATH,
+  DEFAULT_RELAYX_ORD_PATH,
+  SWEEP_PATH,
+}
+
