@@ -1,9 +1,14 @@
 const fs = require('fs')
 const { Tx, TxIn, Script } = require('@ts-bitcoin/core')
+const { getIdentityAddress } = require('./import')
 
-async function convertItem(itemNum) {
+async function convertItem(itemNum, address) {
 
-  const jigDetails = await getJigDetails(itemNum)
+  if (!address) {
+    const mnemonic = process.env.MNEMONIC 
+    address = getIdentityAddress(mnemonic).to_string()
+  }
+  const jigDetails = await getJigDetails(itemNum, address)
   
   // build a transaction
   const tx = new Tx()
@@ -22,10 +27,10 @@ async function convertItem(itemNum) {
   //send it
 }
 
-const getJigDetails = async (itemNum) => {
-  const jigs = fs.readdirSync('./jigs')
+const getJigDetails = async (itemNum, address) => {
+  const jigs = fs.readdirSync(`./jigs/${address}`)
   console.log(jigs[itemNum])
-  const data = fs.readFileSync(`./jigs/${jigs[itemNum]}`)
+  const data = fs.readFileSync(`./jigs/${address}/${jigs[itemNum]}`)
   return JSON.parse(data)
 }
 
