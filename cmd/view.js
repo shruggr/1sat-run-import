@@ -3,9 +3,10 @@ const pc = require("picocolors")
 const { getIdentityAddress } = require("./import")
 const homeDir = require('os').homedir()
 
-async function viewJigs(address, page, searchTerm) {
-  console.log("Viewing jigs for", address, "searching for", searchTerm)
+const jigsPerPage = 25
 
+async function viewJigs(address, page, searchTerm) {
+  console.log(`Viewing ${page ? `page ${page} of` : "all"} jigs for ${address} searching for ${searchTerm}`)
   if (!address || address === "") {
     const mnemonic = process.env.RELAYX_MNEMONIC
     address = getIdentityAddress(mnemonic).to_string()
@@ -27,16 +28,17 @@ async function viewJigs(address, page, searchTerm) {
   let i = 0;
 
   if (page) {
-   jigs = jigs.slice((page - 1) * 25, page * 25)
+   jigs = jigs.slice((page - 1) * jigsPerPage, page * jigsPerPage)
   }
 
   for (const jig of jigs) {
     const jigDetails = JSON.parse(fs.readFileSync(`${homeDir}/runto1sat/jigs/${address}/${jig}`, 'utf8'))
-    const num = `[${(page ? page - 1 : 0) * 25 + i++}]`
+    const num = `[${(page ? page - 1 : 0) * jigsPerPage + i++}]`
     const name = jigDetails.constructor.metadata?.name || "No name"
     const desc = jigDetails.constructor.metadata?.description || "No description"
     console.log(pc.bgWhite(num), pc.green(name), pc.gray(desc.replaceAll("\n", "")))
   }
 }
 
-module.exports = { viewJigs }
+module.exports = { viewJigs, jigsPerPage }
+

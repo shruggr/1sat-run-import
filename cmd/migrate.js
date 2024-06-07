@@ -26,7 +26,8 @@ async function migrateItem(itemNum, address, destination) {
   const origin = jigDetails.constructor.origin
   const metadata = jigDetails.constructor.metadata
   metadata.royalties = metadata.royalties.map((r) => {
-    r.destination = { type: "address", destination: metadata.royalties.address }
+    r.destination = r.address
+    r.type = "address"
     r.percentage = r.royalty
     delete r.royalty
     delete r.address
@@ -34,7 +35,7 @@ async function migrateItem(itemNum, address, destination) {
   })
 
   let meta = undefined
-  console.log(jigDetails)
+  // console.log(jigDetails)
   if (origin && metadata) {
     const originTxid = origin.split("_")[0]
     const audioSuffix = metadata.audio.replace('o', '') // _o2
@@ -45,10 +46,12 @@ async function migrateItem(itemNum, address, destination) {
 b://${originTxid}${audioSuffix}`
     const b64File = Buffer.from(fileContent).toString('base64')
    meta = {
-      app: "Run-to-1Sat",
+      app: "runto1sat",
       type: "ord",
-      name: metadata.name || "",
-      description: metadata.description || "",
+      // these replace statements are needed to avoid errors with \n in the metadata
+      // causing an "Odd number of digits" error from bsv-wasm
+      name: metadata.name.replace(/\n/g, " ") || "no name",
+      description: `${metadata.description.replace(/\n/g, " ")}`,
       royalties: JSON.stringify(metadata.royalties),
       run_origin: origin.replace('o', ''),
       run_image_origin: `${originTxid}${imageSuffix}`,

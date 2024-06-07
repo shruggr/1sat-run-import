@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { importAddress } = require('./cmd/importAddress');
-const { viewJigs } = require('./cmd/view');
+const { viewJigs, jigsPerPage } = require('./cmd/view');
 const { migrateItem } = require('./cmd/migrate');
 const { importFromSeed, getIdentityAddress } = require('./cmd/import');
 const { program } = require('commander');
@@ -8,6 +8,7 @@ const { openExplorer } = require('explorer-opener');
 const fs = require('fs');
 const path = require('path');
 const userHome = require('os').homedir();
+
 
 // Get the default identity address from the mnemonic
 const defaultAddress = process.env.RELAYX_MNEMONIC ? getIdentityAddress(process.env.RELAYX_MNEMONIC).to_string() : undefined;
@@ -30,7 +31,7 @@ program
   .alias('v')
   .description('View imported Run jigs.')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
-  .option('-p, --page <page>', 'Specify the page, omit for all. 25 jigs per page.', undefined)
+  .option('-p, --page <page>', `Specify the page, omit for all. ${jigsPerPage} jigs per page.`, undefined)
   .option('-f, --find <term>', 'Find jigs by name')
   .action((options) => {
     viewJigs(options.address, options.page, options.find)
