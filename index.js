@@ -75,7 +75,7 @@ program
         console.log('Nothing to clear')
         process.exit(0)
       }
-      fs.rmSync(path.join(userHome, 'runto1sat'), { recursive: true }).then(() => {
+      fs.rm(path.join(userHome, 'runto1sat'), { recursive: true }).then(() => {
         console.log('Jig cache cleared')
         process.exit(0)
       }).catch((e) => {
@@ -87,9 +87,10 @@ program
     // command "subscribe" is for getting all listings from the original "order lock" contract
     program.command('subscribe')
     .alias('s')
+    .option('-a, --address <address>', 'Specify the address', defaultAddress)
     .description('Subscribe to runlock feed via JungleBus (active listings)')
-    .action(() => {
-      subscribeToRunLock()
+    .action((options) => {
+      subscribeToRunLock(options.address)
     })
 
 program.parse(process.argv);
