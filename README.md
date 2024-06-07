@@ -72,6 +72,18 @@ runto1sat migrate <id>
 runto1sat start -h
 ```
 
+# Importing RunLocked tokens
+You can get all listings using the original "order lock" contract using JungleBus.
+
+1. Go to junglebus.gorillapool.io and sign up
+2. Create a new subscription. Put your identity address in the addresses field, and "runlock" in the "type field.
+3. Add your subscription ID to the .env file
+4. Run the following command to get all listings
+
+```bash
+runto1sat subscribe
+```
+
 # Roadmap
 
 - [x] Import token data from utxos

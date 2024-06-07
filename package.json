@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/shruggr/1sat-run-import#readme",
   "dependencies": {
+    "@gorillapool/js-junglebus": "^0.4.4",
     "@ts-bitcoin/core": "^2.2.0",
     "bsv-wasm": "^2.1.1",
     "commander": "^11.1.0",

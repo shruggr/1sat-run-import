@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const userHome = require('os').homedir();
 
+const { subscribeToRunLock } = require('./cmd/subscribe');
 
 // Get the default identity address from the mnemonic
 const defaultAddress = process.env.RELAYX_MNEMONIC ? getIdentityAddress(process.env.RELAYX_MNEMONIC).to_string() : undefined;
@@ -57,11 +58,12 @@ program
     .description('Opens the jigs folder')
     .action(() => {
             // check if it exists
-            if (!fs.existsSync(path.join(userHome, 'runto1sat', 'jigs'))) {
+            if (!fs.existsSync(path.join(userHome, 'runto1sat'))) {
               console.log('Nothing to open. Use the import command to populate files.')
               process.exit(0)
             }
-      openExplorer(path.join(userHome, 'runto1sat', 'jigs'))
+      openExplorer(path.join(userHome, 'runto1sat'))
+      process.exit(0)
     })
 
     // command to clear the cache
@@ -69,17 +71,25 @@ program
     .alias('c')
     .description('Clears the jig cache')
     .action(() => {
-      if (!fs.existsSync(path.join(userHome, 'runto1sat', 'jigs'))) {
+      if (!fs.existsSync(path.join(userHome, 'runto1sat'))) {
         console.log('Nothing to clear')
         process.exit(0)
       }
-      fs.rmSync(path.join(userHome, 'runto1sat', 'jigs'), { recursive: true }).then(() => {
+      fs.rmSync(path.join(userHome, 'runto1sat'), { recursive: true }).then(() => {
         console.log('Jig cache cleared')
         process.exit(0)
       }).catch((e) => {
         console.error(e.message)
         process.exit(1)
       })
+    })
+
+    // command "subscribe" is for getting all listings from the original "order lock" contract
+    program.command('subscribe')
+    .alias('s')
+    .description('Subscribe to runlock feed via JungleBus (active listings)')
+    .action(() => {
+      subscribeToRunLock()
     })
 
 program.parse(process.argv);
