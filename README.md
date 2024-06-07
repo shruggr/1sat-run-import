@@ -37,10 +37,16 @@ git clone https://github.com/shruggr/1sat-run-import.git
 npm i
 ```
 
-3. Install the `runto1sat` command globally
+3. Install the `runto1sat` command globally (optional)
 
 ```bash
 npm i -g .
+```
+
+If you don't want to install the `runto1sat` command globally, you can run the tool directly from the project folder:
+
+```bash
+npm run start -h
 ```
 
 # Usage

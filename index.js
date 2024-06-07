@@ -10,7 +10,7 @@ const path = require('path');
 const userHome = require('os').homedir();
 
 // Get the default identity address from the mnemonic
-const defaultAddress = process.env.MNEMONIC ? getIdentityAddress(process.env.MNEMONIC).to_string() : undefined;
+const defaultAddress = process.env.RELAYX_MNEMONIC ? getIdentityAddress(process.env.RELAYX_MNEMONIC).to_string() : undefined;
 const defaultDestinationAddress = process.env.DESTINATION_ORD_ADDRESS ? process.env.DESTINATION_ORD_ADDRESS : undefined;
 
 program.name("runto1sat")
@@ -18,7 +18,7 @@ program.name("runto1sat")
 program
   .command('import')
   .alias('i')
-  .description('Import Run jigs from RelayX mnemonic (uses .env MNEMONIC)')
+  .description('Import Run jigs from RelayX mnemonic (uses .env RELAYX_MNEMONIC)')
   .option('-a, --address <address>', 'Specify the address', defaultAddress)
   .action((options) => {
     importFromSeed(options.address).catch(console.error)

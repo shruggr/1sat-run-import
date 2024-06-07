@@ -1,15 +1,16 @@
 const { ExtendedPrivateKey, P2PKHAddress } = require("bsv-wasm")
 const { importAddress } = require('./importAddress');
 const { DEFAULT_WALLET_PATH, DEFAULT_ORD_PATH, DEFAULT_RELAYX_ORD_PATH } = require('../constants');
+require('dotenv').config();
 
 async function importFromSeed() {
 
   // make sure end is set
-  if (!process.env.MNEMONIC) {
-    throw new Error('Error: Mnemonic is required.');
+  if (!process.env.RELAYX_MNEMONIC) {
+    throw new Error('Error: RELAYX_MNEMONIC environment variable is required.');
   }
 
-  const mnemonic = process.env.MNEMONIC
+  const mnemonic = process.env.RELAYX_MNEMONIC
   const seedStr = mnemonic.trim()
 
   const xprivWasm = ExtendedPrivateKey.from_mnemonic(
