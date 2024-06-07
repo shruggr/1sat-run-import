@@ -7,7 +7,6 @@ const { JungleBusClient, ControlMessageStatusCode } = require("@gorillapool/js-j
 
 async function subscribeToRunLock(address) {
 
-
   const client = new JungleBusClient("junglebus.gorillapool.io", {
     useSSL: true,
     onConnected(ctx) {
@@ -25,15 +24,20 @@ async function subscribeToRunLock(address) {
   });
 
   const onPublish = function (tx) {
-    // console.log("TRANSACTION", tx);
+    console.log("TRANSACTION", tx);
     // create folder if it doesnt exist 
     if (!fs.existsSync(`${homeDir}/runto1sat/runlocks/${address}`)) {
       fs.mkdirSync(`${homeDir}/runto1sat/runlocks/${address}`, { recursive: true });
     }
-    // save raw tx to file
-    fs.writeFileSync(`${homeDir}/runto1sat/runlocks/${address}/${tx.id}.json`, tx.transaction);
 
+    // sync run token to figure out if its spent
+    
+
+
+    // save raw tx to file
+    fs.writeFileSync(`${homeDir}/runto1sat/runlocks/${address}/${tx.id}.json`, "");
   };
+
   const onStatus = function (message) {
     if (message.statusCode === ControlMessageStatusCode.BLOCK_DONE) {
       console.log("BLOCK DONE", message.block);
@@ -45,11 +49,14 @@ async function subscribeToRunLock(address) {
       console.error(message);
     }
   };
+
   const onError = function (err) {
     console.error(err);
   };
+
   const onMempool = function (tx) {
-    // console.log("TRANSACTION", tx);
+    console.log("MEMPOOL TRANSACTION", tx);
+
   };
 
   await client.Subscribe(process.env.JUNGLEBUS_RUNLOCK_SUB_ID, 720000, onPublish, onStatus, onError, onMempool);

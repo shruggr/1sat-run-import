@@ -62,7 +62,14 @@ class Blockchain {
     }
 
     async spends(txid, vout) {
-        throw new Error('Not Implemented');
+        // throw new Error('Not Implemented');
+        const url = `https://junglebus.gorillapool.io/v1/txo/spend/${txid}_${vout}`
+        const resp = await fetch(url);
+        if (resp.status !== 200) {
+            throw new Error('Transaction not found');
+        }
+        // return arrayBuffor of the txid as hex
+        return Buffer.from(await resp.arrayBuffer()).toString('hex');
     }
 
     async utxos(scriptHex, offset = 0, limit = 100) {
